@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MITgo</title>
+  
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/style.css">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="static/favicon-16x16.png">
+    <link rel="manifest" href="static/site.webmanifest">
+
+</head>
+<body>
+    
+    <!--<div class="col-xs-0 col-sm-1 col-md-2 col-ls-3"> </div>-->
+    <div class="bar col-xs-12 col-sm-10 col-md-8 col-ls-6"> 
+        <img src="static/MITgo.png" alt="">  
+        <form action="{{ url_for('get_results') }}" method="post" autocomplete="off">
+            <div class="wrapper">
+                <input type="text" class="input" placeholder="Enter your query here" name="query">
+                <button type="submit" class="searchbtn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
+        <p>Welcome!<br>MITgo is a search engine designed to search the recent research publications of Massachusetts Institute of Technology (MIT) based on the search query entered.<br>So type in your search queries and bingo!</p>
+    </div>
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+/******** For results.html **********/
+a{
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
+footer{
+    padding: 2% 0px;
+    border-top: 1px ridge;
+    color: #6a757d;
+}
+
+.header{
+        padding: 10px 0;
+        background-color: white;
+        border-bottom: 1px ridge #6a757d;
+}
+

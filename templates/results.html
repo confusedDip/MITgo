@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="static/styles.css">
+    <script src="https://kit.fontawesome.com/752cb6d574.js" crossorigin="anonymous"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="static/favicon-16x16.png">
+    <link rel="manifest" href="static/site.webmanifest">
+</head>
+
+<body>
+
+    <div class="header sticky-top">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-4 offset-4 col-lg-2 offset-lg-0 text-align-center">
+                    <a class="navbar-brand" href="/"><img src="static/logo.png" class="img-fluid"></a>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <form class="form mr-auto" action="{{ url_for('get_results') }}" method="post" autocomplete="off">
+                        <div class="input-group">
+                            <input class="form-control" type="text" name="query" value="{{ query }}">
+                            <div class="input-group-append">
+                                <button class="btn btn-info" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="container mt-2 mb-2">
+        {% if results| length > 0%}
+        <!-- List to show the results -->
+            {% for result in results %}
+                <div class="row">
+                    <div class="col-12 col-lg-8">
+                        <div class="card" style="border:none;">
+                            <div class="card-body">
+                               <a href="{{ result.url }}" class="card-link">
+                                    <h6 class="card-subtitle mt-2 mb-1 text-muted">
+                                        {{ result.url }}
+                                    </h6>
+                                   <h5 class="card-title">{{result.title}}</h5>
+                               </a>
+                                {% if (result.abstract |length > 200) %}
+                                    <p class="card-text">{{ result.abstract[0:200] }} ..<a href="{{ result.url }}" target="blank">Read more</a></p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+        <!-- When no result found -->
+        <div class="row">
+            <div class="col-12 mt-5 mb-5">
+                <p>Your search <strong>{{query}}</strong> did not match any documents.</p>
+
+                <p>Suggestions:</p>
+                <ul>
+                    <li>Make sure that all words are spelled correctly.</li>
+                    <li>Try different keywords.</li>
+                    <li>Try more general keywords.</li>
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+        <footer>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-10">
+                        <center>
+                            <p>&copy; Soumili, Souradip, Aparajita
+                            <br>Under the guidance of Prof. Arindam Biswas,
+                            Dept. of Information Technology, IIEST Shibpur</p>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
