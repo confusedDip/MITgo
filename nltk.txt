@@ -1,5 +1,5 @@
+stem
 wordnet
-porter
 corpus
 pros_cons
 reuters
