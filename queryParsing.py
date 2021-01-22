@@ -1,4 +1,4 @@
-#Query_Parsing
+# Query_Parsing
 import re
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
@@ -11,8 +11,6 @@ import json
 
 
 def parsed_result(query):
-    words = query.split()
-
     stop_words = set(stopwords.words("english"))
     # print(sorted(stop_words))
     corpus = []
@@ -38,56 +36,59 @@ def parsed_result(query):
     lem = WordNetLemmatizer()
     text = [lem.lemmatize(word) for word in text if not word in
                                                         stop_words]
+    text1 = text
+    text.clear()
+    for i in range(0, len(text1)):
+        text[i] = str(text1[i])
     text = " ".join(text)
     corpus.append(text)
+    words = text.split()
     corpus.append("")  # log 1=0 df cannot b 0
     # print(corpus)
 
-    cv = CountVectorizer(max_df=0.8, stop_words=stop_words, max_features=10000, ngram_range=(1, 3))
-    X = cv.fit_transform(corpus)
-    # print(X)
-    # print(cv)
+    if len(words) > 0:
+        cv = CountVectorizer(max_df=0.8, stop_words=stop_words, max_features=10000, ngram_range=(1, 3))
+        X = cv.fit_transform(corpus)
+        # print(X)
+        # print(cv)
 
-    listOfURLs = []
-    x = len(list(cv.vocabulary_.keys()))  # list(cv.vocabulary_.keys()) is a list of the words in query
-    # print(list(cv.vocabulary_.keys())[:x])
+        x = len(list(cv.vocabulary_.keys()))  # list(cv.vocabulary_.keys()) is a list of the words in query
 
-    with open(r"static/database_Aparajita_Inverse_Indexed.json") as idx:
-        dicts = json.load(idx)
+        # print(list(cv.vocabulary_.keys())[:x])
 
-    def get_top_n3_words(corpus):
-        vec1 = CountVectorizer(ngram_range=(3, 3), max_features=2000).fit(corpus)
-        bag_of_words = vec1.transform(corpus)
-        sum_words = bag_of_words.sum(axis=0)
-        words_freq = [(word, sum_words[0, idx]) for word, idx in
-                      vec1.vocabulary_.items()]
-        words_freq = sorted(words_freq, key=lambda x: x[1],
-                            reverse=True)
-        return words_freq
+        def get_top_n3_words(corpus):
+            vec1 = CountVectorizer(ngram_range=(3, 3), max_features=2000).fit(corpus)
+            bag_of_words = vec1.transform(corpus)
+            sum_words = bag_of_words.sum(axis=0)
+            words_freq = [(word, sum_words[0, idx]) for word, idx in
+                          vec1.vocabulary_.items()]
+            words_freq = sorted(words_freq, key=lambda x: x[1],
+                                reverse=True)
+            return words_freq
 
-    def get_top_n2_words(corpus):
-        vec1 = CountVectorizer(ngram_range=(2, 2),
-                               max_features=2000).fit(corpus)
-        bag_of_words = vec1.transform(corpus)
-        sum_words = bag_of_words.sum(axis=0)
-        words_freq = [(word, sum_words[0, idx]) for word, idx in
-                      vec1.vocabulary_.items()]
-        words_freq = sorted(words_freq, key=lambda x: x[1],
-                            reverse=True)
-        return words_freq
+        def get_top_n2_words(corpus):
+            vec1 = CountVectorizer(ngram_range=(2, 2),
+                                   max_features=2000).fit(corpus)
+            bag_of_words = vec1.transform(corpus)
+            sum_words = bag_of_words.sum(axis=0)
+            words_freq = [(word, sum_words[0, idx]) for word, idx in
+                          vec1.vocabulary_.items()]
+            words_freq = sorted(words_freq, key=lambda x: x[1],
+                                reverse=True)
+            return words_freq
 
-    def get_top_n1_words(corpus):
-        vec1 = CountVectorizer(ngram_range=(1, 1),
-                               max_features=2000).fit(corpus)
-        bag_of_words = vec1.transform(corpus)
-        sum_words = bag_of_words.sum(axis=0)
-        words_freq = [(word, sum_words[0, idx]) for word, idx in
-                      vec1.vocabulary_.items()]
-        words_freq = sorted(words_freq, key=lambda x: x[1],
-                            reverse=True)
-        return words_freq
+        def get_top_n1_words(corpus):
+            vec1 = CountVectorizer(ngram_range=(1, 1),
+                                   max_features=2000).fit(corpus)
+            bag_of_words = vec1.transform(corpus)
+            sum_words = bag_of_words.sum(axis=0)
+            words_freq = [(word, sum_words[0, idx]) for word, idx in
+                          vec1.vocabulary_.items()]
+            words_freq = sorted(words_freq, key=lambda x: x[1],
+                                reverse=True)
+            return words_freq
 
-    # creating list of tuples for each word
+        # creating list of tuples for each word
     grams = []
     if len(words) >= 3:
         grams.append(get_top_n3_words(corpus))  # storing trigrams as 0 index first priority
@@ -96,6 +97,10 @@ def parsed_result(query):
     if len(words) > 0:
         grams.append(get_top_n1_words(corpus))  # storing 1 word
 
+    with open(r"static/database_Aparajita_Inverse_Indexed.json") as idx:
+        dicts = json.load(idx)
+
+    listOfURLs = []
     k = -1
     for j in grams:
         # print(j)
