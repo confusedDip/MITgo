@@ -37,9 +37,10 @@ def parsed_result(query):
     text = [lem.lemmatize(word) for word in text if not word in
                                                         stop_words]
     text1 = text
-    text.clear()
+    text = []
     for i in range(0, len(text1)):
-        text[i] = str(text1[i])
+        if (len(text1[i]) > 1):
+            text.append(text1[i])
     text = " ".join(text)
     corpus.append(text)
     words = text.split()
