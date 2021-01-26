@@ -113,7 +113,8 @@ def parsed_result(query):
                 k = k + 1
                 listOfURLs[k].append(dicts[i[0]])
                 # print(listOfURLs[k])
-            listOfURLs[k].sort(key=lambda tup: (tup[0], tup[1]), reverse=True)
+            if len(listOfURLs[k]) > 1:
+                listOfURLs[k].sort(key=lambda tup: (tup[0], tup[1]), reverse=True)
             # print(listOfURLs[k])
             if len(listOfURLs[
                        k]) != 0:  # if trigram exist in dicts do not use bigram or 1 words anymore to avoid wrong
